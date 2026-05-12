@@ -20,7 +20,7 @@ allowed-tools: Bash Read Write
 ## Onboarding（首次使用）
 
 ```bash
-bash ~/.claude/skills/tronclass-resource-extractor/scripts/setup.sh
+node ~/.claude/skills/tronclass-resource-extractor/scripts/setup.js
 ```
 
 或手动：`agent-browser --headed --session-name cuc open "https://courses.cuc.edu.cn"` → 登录 → 完成。

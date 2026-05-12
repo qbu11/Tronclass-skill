@@ -22,7 +22,7 @@ allowed-tools: Bash Read Write
 首次使用任何 tronclass skill 时，运行 setup 脚本：
 
 ```bash
-bash ~/.claude/skills/tronclass-resource-extractor/scripts/setup.sh
+node ~/.claude/skills/tronclass-resource-extractor/scripts/setup.js
 ```
 
 或手动执行：

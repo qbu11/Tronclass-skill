@@ -59,7 +59,7 @@ cp -r Tronclass-skill/tronclass-resource-extractor ~/.claude/skills/
 ### 第三步：首次登录（只需一次）
 
 ```bash
-bash ~/.claude/skills/tronclass-resource-extractor/scripts/setup.sh
+node ~/.claude/skills/tronclass-resource-extractor/scripts/setup.js
 ```
 
 脚本会：
@@ -144,8 +144,8 @@ TronClass（畅课）被 100+ 所中国高校使用，API 接口通用。
 
 | 要改什么 | 改成什么 | 在哪改 |
 |---------|---------|-------|
-| 域名 `courses.cuc.edu.cn` | 你学校的 TronClass 域名 | 全部 `SKILL.md` + `setup.sh` |
-| Session 名 `cuc` | 你学校缩写（如 `pku`） | 全部 `SKILL.md` + `setup.sh` |
+| 域名 `courses.cuc.edu.cn` | 你学校的 TronClass 域名 | 全部 `SKILL.md` + `setup.js` |
+| Session 名 `cuc` | 你学校缩写（如 `pku`） | 全部 `SKILL.md` + `setup.js` |
 | 用户 ID `3817518` | 你的用户 ID | `dashboard/SKILL.md` + `homework/SKILL.md` |
 
 一键替换（以北大为例）：
@@ -196,7 +196,7 @@ agent-browser --session-name myuni eval "
 " | grep -oP '"id":\d+' | head -1
 ```
 
-登录后 session 自动保存，把 `setup.sh` 里的选择器改成你学校的即可。
+登录后 session 自动保存，把 `setup.js` 里的选择器改成你学校的即可。
 
 ### 已验证学校
 
@@ -221,7 +221,7 @@ Tronclass-skill/
 └── tronclass-resource-extractor/
     ├── SKILL.md              # 课件下载技能
     └── scripts/
-        └── setup.sh          # 一键安装 + 登录脚本
+        └── setup.js          # 一键安装 + 登录脚本
 ```
 
 ## API 参考
@@ -329,7 +329,7 @@ TronClass API 知识来源于以下开源项目：
 <details>
 <summary>登录态过期了怎么办？</summary>
 
-重新运行：`bash ~/.claude/skills/tronclass-resource-extractor/scripts/setup.sh`
+重新运行：`node ~/.claude/skills/tronclass-resource-extractor/scripts/setup.js`
 </details>
 
 <details>
