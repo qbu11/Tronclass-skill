@@ -254,6 +254,31 @@ node ~/.claude/skills/tronclass-resource-extractor/scripts/setup.js
 
 ---
 
+## 推荐搭配
+
+TronClass Skills 下载的课件和作业，可以搭配这些 skill 构建完整的学术工作流：
+
+| Skill | 用途 | 搭配场景 |
+|-------|------|---------|
+| [scientific-writing](https://github.com/K-Dense/scientific-writing) | 学术论文写作（IMRAD结构、APA引用） | 用下载的课件资料写课程论文 |
+| [scientific-visualization](https://github.com/K-Dense/scientific-visualization) | 论文级可视化（matplotlib/seaborn） | 作业中的数据分析图表 |
+| [deep-research](https://github.com/anthropics/claude-code) | 多源深度调研 | 课程报告的文献综述 |
+| [scholar-evaluation](https://github.com/K-Dense/scholar-evaluation) | 论文评估（ScholarEval框架） | 评价课程阅读材料的研究质量 |
+| [scientific-critical-thinking](https://github.com/K-Dense/scientific-critical-thinking) | 科学批判性思维 | 分析课程论文的实验设计 |
+| [bilibili-video-summary](https://github.com/qbu11/Tronclass-skill) | B站视频字幕提取与总结 | 课程相关视频的笔记整理 |
+
+**典型工作流示例：**
+
+```
+下载课件（resource-extractor）
+    → 深度调研补充资料（deep-research）
+    → 写课程论文（scientific-writing）
+    → 生成图表（scientific-visualization）
+    → 提交作业（homework）
+```
+
+---
+
 ## 交流群
 
 <div align="center">
