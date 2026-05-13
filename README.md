@@ -64,6 +64,7 @@ agent-browser install
 | **课程面板** | `/tronclass-dashboard` | 课程列表、待办 DDL、成绩、签到、公告 |
 | **作业管理** | `/tronclass-homework` | 查看/提交作业、查看成绩、参与讨论 |
 | **课件下载** | `/tronclass-resource-extractor` | 批量下载课件 PDF/PPT/文档 |
+| **学术写作** | `/tronclass-academic-writer` | 生成中文格式 DOCX（宋体/黑体/表格） |
 
 ---
 
@@ -256,24 +257,32 @@ node ~/.claude/skills/tronclass-resource-extractor/scripts/setup.js
 
 ## 推荐搭配
 
-TronClass Skills 下载的课件和作业，可以搭配这些 skill 构建完整的学术工作流：
+### 内置 skill
+
+| Skill | 用途 |
+|-------|------|
+| **tronclass-academic-writer** | 生成中文格式 DOCX — 宋体正文、黑体标题、数据表格、分析报告，直接提交到 TronClass |
+
+### 推荐外部 skill（需单独安装）
+
+搭配以下 skill 可以构建完整的学术工作流：
 
 | Skill | 用途 | 搭配场景 |
 |-------|------|---------|
-| [scientific-writing](https://github.com/K-Dense/scientific-writing) | 学术论文写作（IMRAD结构、APA引用） | 用下载的课件资料写课程论文 |
-| [scientific-visualization](https://github.com/K-Dense/scientific-visualization) | 论文级可视化（matplotlib/seaborn） | 作业中的数据分析图表 |
-| [deep-research](https://github.com/anthropics/claude-code) | 多源深度调研 | 课程报告的文献综述 |
-| [scholar-evaluation](https://github.com/K-Dense/scholar-evaluation) | 论文评估（ScholarEval框架） | 评价课程阅读材料的研究质量 |
-| [scientific-critical-thinking](https://github.com/K-Dense/scientific-critical-thinking) | 科学批判性思维 | 分析课程论文的实验设计 |
-| [bilibili-video-summary](https://github.com/qbu11/Tronclass-skill) | B站视频字幕提取与总结 | 课程相关视频的笔记整理 |
+| [scientific-writing](https://github.com/K-Dense/scientific-writing) | 学术论文写作（IMRAD/APA） | 课程论文的结构化写作 |
+| [scientific-visualization](https://github.com/K-Dense/scientific-visualization) | 论文级图表（matplotlib） | 数据分析作业的可视化 |
+| [deep-research](https://github.com/anthropics/claude-code) | 多源深度调研 | 报告的文献综述 |
+| [scholar-evaluation](https://github.com/K-Dense/scholar-evaluation) | 论文评估框架 | 评价阅读材料质量 |
+| [scientific-critical-thinking](https://github.com/K-Dense/scientific-critical-thinking) | 科学批判性思维 | 分析实验设计 |
+| [bilibili-video-summary](https://github.com/nichochar/agent-browser) | B站视频字幕提取 | 课程视频笔记 |
 
-**典型工作流示例：**
+### 完整工作流
 
 ```
-下载课件（resource-extractor）
+查看作业要求（dashboard）
+    → 下载参考课件（resource-extractor）
     → 深度调研补充资料（deep-research）
-    → 写课程论文（scientific-writing）
-    → 生成图表（scientific-visualization）
+    → 数据分析 + 生成 DOCX（academic-writer）
     → 提交作业（homework）
 ```
 
