@@ -1,10 +1,11 @@
 ---
 name: tronclass-dashboard
 description: |
-  TronClass 课程总览面板：查看所有课程、待办作业、成绩、签到记录。
+  TronClass 课程总览面板：查看所有课程、待办作业、成绩、签到记录，自动提交作业并验证。
   Use when the user asks about courses, pending homework, deadlines, grades,
-  attendance, or academic status. Triggers on: "我的课程", "待办", "作业截止",
-  "签到", "成绩", "课表", "ddl", "deadline".
+  attendance, academic status, or homework submission. Triggers on: "我的课程",
+  "待办", "作业截止", "签到", "成绩", "课表", "ddl", "deadline", "提交作业",
+  "提交", "交作业", "交一下", "submit".
 allowed-tools: Bash Read Write
 ---
 
@@ -106,6 +107,64 @@ agent-browser --session-name cuc eval "fetch('/api/announcement').then(r=>r.json
 ```bash
 agent-browser --session-name cuc eval "fetch('/api/my-semesters').then(r=>r.json()).then(d=>JSON.stringify(d,null,2))"
 ```
+
+## 作业提交流程（自动提交 + 检查）
+
+用户提到"提交"/"交作业"/"提交作业"时，不要只查状态，**直接执行以下完整流程**。
+
+### Step 1: 打开作业页面
+
+```
+agent-browser --session-name cuc snapshot "https://courses.cuc.edu.cn/courses/{course_id}/homework/{homework_activity_id}"
+```
+
+### Step 2: 从个人资源库投递文件
+
+TronClass 的"添加文件"弹窗会列出**个人资源库**中已上传的文件。用 JS 勾选匹配的 checkbox：
+
+```bash
+agent-browser --session-name cuc eval "
+const chk = document.querySelectorAll('input[type=checkbox]');
+let found = null;
+for (const c of chk) {
+  const label = c.closest('label') || c.parentElement;
+  if (label && label.textContent.includes('文件名关键词')) {
+    found = c; break;
+  }
+}
+if (found && !found.checked) { found.click(); 'clicked'; }
+else if (found && found.checked) { 'already_checked'; }
+else { 'not_found: ' + chk.length + ' checkboxes'; }
+"
+```
+
+点确认按钮（通过 snapshot 找到"确认"button 的 ref），再点"交付作业"。
+
+### Step 3: 检查提交成功（必须）
+
+提交后立刻查待办和作业详情，**两者都消了才算成功**：
+
+```bash
+# 检查待办是否消失
+agent-browser --session-name cuc eval "
+fetch('/api/todos?no-intercept=true').then(r=>r.json())
+.then(d=>JSON.stringify((d.todo_list||[]).filter(t=>t.course_id===175509).map(t=>({title:t.title,id:t.id})),null,2))
+"
+
+# 检查作业活动详情的提交状态
+agent-browser --session-name cuc eval "
+fetch('/api/courses/{course_id}/activities?sub_course_id=0').then(r=>r.json()).then(d=>{
+  const a = d.activities.find(x=>x.id==={homework_activity_id});
+  return a ? JSON.stringify({title:a.title, is_in_progress:a.is_in_progress, submission_status:a.submission_status}) : 'not found';
+})
+"
+```
+
+### 文件不在资源库时
+
+如果个人资源库找不到文件，说明还没上传到 TronClass。需要：
+1. 先用 agent-browser 上传本地文件到资源库
+2. 或者走 `agent-browser file-upload` 路径直接投递
 
 ## 已知课程
 
